@@ -1,0 +1,12 @@
+C:\Users\pss32\Desktop\illuminaTest\src\CodingAssignmentLib\bin\Debug\net6.0\CodingAssignmentLib.deps.json
+C:\Users\pss32\Desktop\illuminaTest\src\CodingAssignmentLib\bin\Debug\net6.0\CodingAssignmentLib.dll
+C:\Users\pss32\Desktop\illuminaTest\src\CodingAssignmentLib\bin\Debug\net6.0\CodingAssignmentLib.pdb
+C:\Users\pss32\Desktop\illuminaTest\src\CodingAssignmentLib\obj\Debug\net6.0\CodingAssignmentLib.csproj.AssemblyReference.cache
+C:\Users\pss32\Desktop\illuminaTest\src\CodingAssignmentLib\obj\Debug\net6.0\CodingAssignmentLib.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\pss32\Desktop\illuminaTest\src\CodingAssignmentLib\obj\Debug\net6.0\CodingAssignmentLib.AssemblyInfoInputs.cache
+C:\Users\pss32\Desktop\illuminaTest\src\CodingAssignmentLib\obj\Debug\net6.0\CodingAssignmentLib.AssemblyInfo.cs
+C:\Users\pss32\Desktop\illuminaTest\src\CodingAssignmentLib\obj\Debug\net6.0\CodingAssignmentLib.csproj.CoreCompileInputs.cache
+C:\Users\pss32\Desktop\illuminaTest\src\CodingAssignmentLib\obj\Debug\net6.0\CodingAssignmentLib.dll
+C:\Users\pss32\Desktop\illuminaTest\src\CodingAssignmentLib\obj\Debug\net6.0\refint\CodingAssignmentLib.dll
+C:\Users\pss32\Desktop\illuminaTest\src\CodingAssignmentLib\obj\Debug\net6.0\CodingAssignmentLib.pdb
+C:\Users\pss32\Desktop\illuminaTest\src\CodingAssignmentLib\obj\Debug\net6.0\ref\CodingAssignmentLib.dll

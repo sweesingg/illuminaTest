@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "MawTdVjwlqiSfhAQ9MrjdB/Jp7V6pfkvKS1spu6BnwUm6iPMVD885bq41IXXMtRGFutDxuKP3JN2DhxxYZgSPQ==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\pss32\\Desktop\\illuminaTest\\src\\CodingAssignmentLib\\CodingAssignmentLib.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\pss32\\.nuget\\packages\\system.io.abstractions\\19.2.26\\system.io.abstractions.19.2.26.nupkg.sha512",
+    "C:\\Users\\pss32\\.nuget\\packages\\testableio.system.io.abstractions\\19.2.26\\testableio.system.io.abstractions.19.2.26.nupkg.sha512",
+    "C:\\Users\\pss32\\.nuget\\packages\\testableio.system.io.abstractions.wrappers\\19.2.26\\testableio.system.io.abstractions.wrappers.19.2.26.nupkg.sha512"
+  ],
+  "logs": []
+}

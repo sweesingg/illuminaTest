@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "dgSpecHash": "hmah7apbkReZnbEtPRpF5DxGfzujxdhhS4hmsHKs8/3FEpvfdlTSr5zAab7rvvOYx1SrSYgDmNuuLxBtIeSS7g==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\pss32\\Desktop\\illuminaTest\\src\\CodingAssignmentApp\\CodingAssignmentApp.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\pss32\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512",
+    "C:\\Users\\pss32\\.nuget\\packages\\system.io.abstractions\\19.2.26\\system.io.abstractions.19.2.26.nupkg.sha512",
+    "C:\\Users\\pss32\\.nuget\\packages\\testableio.system.io.abstractions\\19.2.26\\testableio.system.io.abstractions.19.2.26.nupkg.sha512",
+    "C:\\Users\\pss32\\.nuget\\packages\\testableio.system.io.abstractions.wrappers\\19.2.26\\testableio.system.io.abstractions.wrappers.19.2.26.nupkg.sha512"
+  ],
+  "logs": []
+}
