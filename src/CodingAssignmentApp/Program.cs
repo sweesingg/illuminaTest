@@ -7,6 +7,8 @@ using CodingAssignmentLib.Abstractions;
 using System.Xml;
 // using Newtonsoft.Json;
 
+string currentDir = Directory.GetCurrentDirectory() + "\\data";
+
 Console.WriteLine("Coding Assignment!");
 
 do
@@ -93,13 +95,48 @@ void readCSV()
 void Search()
 {
     Console.WriteLine("Enter the key to search.");
+    // string searchTerm = @"aaaaa"; 
+    string searchTerm = Console.ReadLine();
+    String filePath = @"C:\\Users\\pss32\\Desktop\\illuminaTest\\src\\CodingAssignmentApp\\data\\";
+    Console.WriteLine($"File Path: {filePath}");
+
+    System.IO.DirectoryInfo dir = new System.IO.DirectoryInfo(currentDir);
+    IEnumerable<System.IO.FileInfo> fileList = dir.GetFiles("*.*", System.IO.SearchOption.AllDirectories);  
+    
+    // Search contents of file
+    var queryMatchingFiles = from file in fileList let fileText = GetFileText(file.FullName) where LowerCaseString(fileText).Contains(LowerCaseString(searchTerm)) select file.FullName;
+
+    // Execute Query
+    Console.WriteLine("The term {0} was found in: ", searchTerm);
+    foreach(string filename in queryMatchingFiles)
+    {
+        Console.WriteLine(filename);
+    }
+}
+
+string GetFileText(string name)
+{
+    string fileContents = String.Empty;
+
+    if (System.IO.File.Exists(name))
+    {
+        fileContents = System.IO.File.ReadAllText(name);
+    }
+
+    return fileContents;
+}
+string LowerCaseString(string text)
+{
+    // Method that converts text to lower cases
+    text = text.ToLower();
+    return text;
 }
 
 void readXML()
 {
     Console.Write("Enter name of XML file: ");
     String fileName = Console.ReadLine();
-    string filePath = "C:\\Users\\pss32\\Desktop\\illuminaTest\\src\\CodingAssignmentApp\\data\\" + fileName + ".xml";
+    string filePath = @"C:\\Users\\pss32\\Desktop\\illuminaTest\\src\\CodingAssignmentApp\\data\\" + fileName + ".xml";
     
     XmlDocument xmlDoc = new XmlDocument();
     xmlDoc.Load(filePath);
@@ -123,7 +160,7 @@ string CheckJsonFile()
 {
     START:
     // Location of data folder
-    string path = "C:\\Users\\pss32\\Desktop\\illuminaTest\\src\\CodingAssignmentApp\\data\\";
+    string path = @"C:\\Users\\pss32\\Desktop\\illuminaTest\\src\\CodingAssignmentApp\\data\\";
     Console.Write("Enter name of JSON file: ");
     
     var response = Console.ReadLine();
@@ -179,5 +216,13 @@ public class JsonData
 {
     public string Key { get; set; }
     public string Value { get; set; }
+}
+
+public class StringExtensions
+{
+    public bool ContainsCaseInsensitive(string source, string substring)
+    {
+        return source?.IndexOf(substring, StringComparison.OrdinalIgnoreCase) > -1;
+    }
 }
 
