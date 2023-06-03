@@ -68,7 +68,6 @@ void Display()
         default:
             return;
     }
-
 }
 
 void Search()
@@ -91,29 +90,26 @@ void Search()
     // Console.WriteLine("The Key {0} was found in: ", searchTerm);
     foreach(string filename in queryMatchingFiles)
     {
-        
         var fileUtility = new FileUtility(new FileSystem());
 
-        // if extension ends with json
+        // JSON
         if (fileUtility.GetExtension(filename)== ".json")
         {
             Console.WriteLine("File Type: JSON");
-            // Console.WriteLine("Key:{0} ", searchTerm);
             JsonFileDisplay(filename, true);
 
         }
-        // if extension ends with xml
+        // XML
         if (fileUtility.GetExtension(filename)== ".xml")
         {
             Console.WriteLine("File Type: XML");
             readXML(filename, true);
-            // Console.WriteLine("Key:{0} ", searchTerm);
         }
-        // if extension ends with csv
+        // CSV
         if (fileUtility.GetExtension(filename)== ".csv")
         {
             Console.WriteLine("File Type: CSV");
-            Console.WriteLine("Key:{0} ", searchTerm);
+            // TO DO
         }
 
         // Print file path
@@ -175,6 +171,7 @@ void readXML(string fileName, bool searchMode)
     if (searchMode == false){
         Console.Write("Enter name of XML file: ");
         fileName = Console.ReadLine();
+        Console.WriteLine(" ");
         filePath = currentDir + fileName + ".xml";
     }
     else if (searchMode == true)
@@ -196,8 +193,8 @@ void readXML(string fileName, bool searchMode)
     {
         string nodeKey = xmlNode.SelectSingleNode("Key").InnerText;
         string nodeValue = xmlNode.SelectSingleNode("Value").InnerText;
-        // Print Data
-        // if search mode 
+        
+        // Search mode 
         if (searchMode == true)
         {
             if (checkStrings(searchTerm, nodeKey))
@@ -206,6 +203,7 @@ void readXML(string fileName, bool searchMode)
                 break;
             }
         }
+        // Show Data
         Console.WriteLine($"Key: {nodeKey} Value: {nodeValue}");
     }
 }
@@ -215,6 +213,7 @@ string CheckJsonFile()
     START:
     Console.Write("Enter name of JSON file: ");
     var fileName = Console.ReadLine();
+    Console.WriteLine(" ");
     string filePath = currentDir + fileName + ".json";
     // Console.WriteLine("Json File Path: {0}", filePath);
 
@@ -234,17 +233,14 @@ void JsonFileDisplay(string jsonFileInput, bool searchMode)
     string jsonString = File.ReadAllText(jsonFileInput);
     // Console.WriteLine($"Json String : \n{jsonString}\n");
 
-    // use the built in Json deserializer to convert the string to a list of JsonData objects
+    // Built in Json deserializer to convert the string to a list of JsonData objects
     var jsonData = System.Text.Json.JsonSerializer.Deserialize<List<JsonData>>(jsonString);
     Console.WriteLine("Json Data:");
     
     foreach (var info in jsonData)
     {
-        if (searchMode == false)
-        {
-            Console.WriteLine($"Key: {info.Key} Value: {info.Value}");
-        }
-        else if (searchMode == true)
+        // Search Mode
+        if (searchMode == true)
         {
             if (checkStrings(searchTerm, info.Key))
             {
@@ -252,6 +248,8 @@ void JsonFileDisplay(string jsonFileInput, bool searchMode)
                 break;
             }
         }
+        // Print Json Data
+        Console.WriteLine($"Key: {info.Key} Value: {info.Value}");
     }
     
 }
