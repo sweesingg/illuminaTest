@@ -7,7 +7,9 @@ using CodingAssignmentLib.Abstractions;
 using System.Xml;
 // using Newtonsoft.Json;
 
-string currentDir = Directory.GetCurrentDirectory() + "\\data";
+// File Path (Change if necessary)
+string currentDir = Directory.GetCurrentDirectory() + "\\data\\";
+string searchTerm = "";
 
 Console.WriteLine("Coding Assignment!");
 
@@ -49,11 +51,11 @@ void Display()
         case "1":
         // Display Json File
             string jsonPath = CheckJsonFile();
-            JsonFileDisplay(jsonPath);
+            JsonFileDisplay(jsonPath, false);
             break;
         case "2":
         // Display XML File
-            readXML();
+            readXML("", false);
             break;
         case "3":
         // Display CSV File
@@ -67,7 +69,56 @@ void Display()
             return;
     }
 
+}
+
+void Search()
+{
+    Console.WriteLine("Enter the key to search.");
+    // string searchTerm = @"aaaaa"; 
+    // json search term: 75knWnMBov
+    // xml search term: YvXYLQtn7V
+    // csv search term: aaaaa
+
+    searchTerm = Console.ReadLine();
+    Console.WriteLine(" ");
+    System.IO.DirectoryInfo dir = new System.IO.DirectoryInfo(currentDir);
+    IEnumerable<System.IO.FileInfo> fileList = dir.GetFiles("*.*", System.IO.SearchOption.AllDirectories);  
     
+    // Search contents of file
+    var queryMatchingFiles = from file in fileList let fileText = GetFileText(file.FullName) where checkStrings(fileText, searchTerm) select file.FullName;
+
+    // Execute Query
+    // Console.WriteLine("The Key {0} was found in: ", searchTerm);
+    foreach(string filename in queryMatchingFiles)
+    {
+        
+        var fileUtility = new FileUtility(new FileSystem());
+
+        // if extension ends with json
+        if (fileUtility.GetExtension(filename)== ".json")
+        {
+            Console.WriteLine("File Type: JSON");
+            // Console.WriteLine("Key:{0} ", searchTerm);
+            JsonFileDisplay(filename, true);
+
+        }
+        // if extension ends with xml
+        if (fileUtility.GetExtension(filename)== ".xml")
+        {
+            Console.WriteLine("File Type: XML");
+            readXML(filename, true);
+            // Console.WriteLine("Key:{0} ", searchTerm);
+        }
+        // if extension ends with csv
+        if (fileUtility.GetExtension(filename)== ".csv")
+        {
+            Console.WriteLine("File Type: CSV");
+            Console.WriteLine("Key:{0} ", searchTerm);
+        }
+
+        // Print file path
+        Console.WriteLine("File Name: {0} \n", filename);
+    }
 }
 
 void readCSV()
@@ -92,28 +143,6 @@ void readCSV()
     }
 }
 
-void Search()
-{
-    Console.WriteLine("Enter the key to search.");
-    // string searchTerm = @"aaaaa"; 
-    string searchTerm = Console.ReadLine();
-    String filePath = @"C:\\Users\\pss32\\Desktop\\illuminaTest\\src\\CodingAssignmentApp\\data\\";
-    Console.WriteLine($"File Path: {filePath}");
-
-    System.IO.DirectoryInfo dir = new System.IO.DirectoryInfo(currentDir);
-    IEnumerable<System.IO.FileInfo> fileList = dir.GetFiles("*.*", System.IO.SearchOption.AllDirectories);  
-    
-    // Search contents of file
-    var queryMatchingFiles = from file in fileList let fileText = GetFileText(file.FullName) where LowerCaseString(fileText).Contains(LowerCaseString(searchTerm)) select file.FullName;
-
-    // Execute Query
-    Console.WriteLine("The term {0} was found in: ", searchTerm);
-    foreach(string filename in queryMatchingFiles)
-    {
-        Console.WriteLine(filename);
-    }
-}
-
 string GetFileText(string name)
 {
     string fileContents = String.Empty;
@@ -125,33 +154,58 @@ string GetFileText(string name)
 
     return fileContents;
 }
-string LowerCaseString(string text)
+
+bool checkStrings(string fileText, string searchTerm)
 {
+    bool result = false;
+
     // Method that converts text to lower cases
-    text = text.ToLower();
-    return text;
+    if (fileText.ToLower().Contains(searchTerm.ToLower()))
+    {
+        return result = true;
+    }
+
+    return result;
 }
 
-void readXML()
+void readXML(string fileName, bool searchMode)
 {
-    Console.Write("Enter name of XML file: ");
-    String fileName = Console.ReadLine();
-    string filePath = @"C:\\Users\\pss32\\Desktop\\illuminaTest\\src\\CodingAssignmentApp\\data\\" + fileName + ".xml";
+    string filePath = "";
+
+    if (searchMode == false){
+        Console.Write("Enter name of XML file: ");
+        fileName = Console.ReadLine();
+        filePath = currentDir + fileName + ".xml";
+    }
+    else if (searchMode == true)
+    {
+        filePath = fileName;
+        // Console.WriteLine("CHECK FILE PATH IN XML: {0}", filePath);
+    }
     
     XmlDocument xmlDoc = new XmlDocument();
     xmlDoc.Load(filePath);
 
     // Check XML Path
-    Console.WriteLine($"XML Path: {filePath}");
+    // Console.WriteLine($"XML Path: {filePath}");
 
     XmlNodeList? xmlNodeList = xmlDoc.DocumentElement.SelectNodes("/Datas/Data");
 
-    Console.WriteLine("Data:");
+    Console.WriteLine("XML Data:");
     foreach(XmlNode xmlNode in xmlNodeList)
     {
         string nodeKey = xmlNode.SelectSingleNode("Key").InnerText;
         string nodeValue = xmlNode.SelectSingleNode("Value").InnerText;
         // Print Data
+        // if search mode 
+        if (searchMode == true)
+        {
+            if (checkStrings(searchTerm, nodeKey))
+            {
+                Console.WriteLine($"Key: {nodeKey} Value: {nodeValue}");
+                break;
+            }
+        }
         Console.WriteLine($"Key: {nodeKey} Value: {nodeValue}");
     }
 }
@@ -159,19 +213,14 @@ void readXML()
 string CheckJsonFile()
 {
     START:
-    // Location of data folder
-    string path = @"C:\\Users\\pss32\\Desktop\\illuminaTest\\src\\CodingAssignmentApp\\data\\";
     Console.Write("Enter name of JSON file: ");
-    
-    var response = Console.ReadLine();
-    // Console.WriteLine("Name of File: {0}", response);
+    var fileName = Console.ReadLine();
+    string filePath = currentDir + fileName + ".json";
+    // Console.WriteLine("Json File Path: {0}", filePath);
 
-    response = path + response + ".json";
-    Console.WriteLine("Json File Path: {0}", response);
-
-    if (File.Exists(response))
+    if (File.Exists(filePath))
     {
-        return response;
+        return filePath;
     }
     else 
     {
@@ -180,34 +229,29 @@ string CheckJsonFile()
     } 
 }
 
-void JsonFileDisplay(string jsonFileInput)
+void JsonFileDisplay(string jsonFileInput, bool searchMode)
 {
     string jsonString = File.ReadAllText(jsonFileInput);
-    // dynamic jsonFile = JsonConvert.DeserializeObject(File.ReadAllText(jsonFileInput));
-    // Console.WriteLine($"Key: {jsonFile["Key"]}");
-    // Console.WriteLine($"Key:{jsonFile.Key} Value:{jsonFile.Value}");
-    
-    // JArray myArray = (JArray)jsonFile["myArray"];
+    // Console.WriteLine($"Json String : \n{jsonString}\n");
 
-    // foreach (JObject item in myArray)
-    // {
-    //     string key = (string)item["Key"];
-    //     string value = (string)item["Value"];
-    //     Console.WriteLine($"Key: {key} Value: {value}");
-        
-    // }
-
-    Console.WriteLine($"Json String : \n{jsonString}\n");
-    // JsonData[] jsonData = JsonConvert.DeserializeObject<JsonData[]>(jsonString);
-    // Console.WriteLine(jsonData.Key);
-
-    // use the built in Json deserializer to convert the string to a list of Person objects
+    // use the built in Json deserializer to convert the string to a list of JsonData objects
     var jsonData = System.Text.Json.JsonSerializer.Deserialize<List<JsonData>>(jsonString);
-    Console.WriteLine("Data:");
-
-    foreach (var value in jsonData)
+    Console.WriteLine("Json Data:");
+    
+    foreach (var info in jsonData)
     {
-        Console.WriteLine($"Key: {value.Key} Value: {value.Value}");
+        if (searchMode == false)
+        {
+            Console.WriteLine($"Key: {info.Key} Value: {info.Value}");
+        }
+        else if (searchMode == true)
+        {
+            if (checkStrings(searchTerm, info.Key))
+            {
+                Console.WriteLine($"Key: {info.Key} Value: {info.Value}");
+                break;
+            }
+        }
     }
     
 }
@@ -218,11 +262,4 @@ public class JsonData
     public string Value { get; set; }
 }
 
-public class StringExtensions
-{
-    public bool ContainsCaseInsensitive(string source, string substring)
-    {
-        return source?.IndexOf(substring, StringComparison.OrdinalIgnoreCase) > -1;
-    }
-}
 
